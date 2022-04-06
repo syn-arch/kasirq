@@ -19,6 +19,7 @@
 
     <!-- Custom styles for this template-->
     <link href="/sbadmin2/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/sbadmin2/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -189,7 +190,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{Auth::user()->namde}}</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{Auth::user()->name}}</span>
                                 <img class="img-profile rounded-circle"
                                     src="/sbadmin2/img/undraw_profile.svg">
                             </a>
@@ -243,6 +244,15 @@
 
     <!-- Custom scripts for all pages-->
     <script src="/sbadmin2/js/sb-admin-2.min.js"></script>
+
+    {{-- chart --}}
+    <script src="/sbadmin2/vendor/chart.js/Chart.min.js"></script>
+
+    {{-- datatable --}}
+    <script src="/sbadmin2/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/sbadmin2/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    @stack('js')
 
 </body>
 

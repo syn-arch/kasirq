@@ -18,7 +18,8 @@ class AuthSeeder extends Seeder
         User::create([
             'name' => 'Admin Kasir',
             'email' => 'adminkasir@mail.com',
-            'password' => Hash::make('adminkasir')
+            'password' => Hash::make('adminkasir'),
+            'role' => 'admin_kasir'
         ]);
     }
 }
