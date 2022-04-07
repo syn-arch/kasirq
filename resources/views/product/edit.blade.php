@@ -21,14 +21,14 @@
                             @method('PUT')
                             <div class="form-group">
                                 <label for="product_name">Nama Barang</label>
-                                <input type="text" class="form-control @error('product_name') is-invalid @enderror" name="product_name" id="product_name" placeholder="Nama Barang" value="{{$product->product_name}}">
+                                <input type="text" class="form-control @error('product_name') is-invalid @enderror" name="product_name" id="product_name" placeholder="Nama Barang" value="{{ old('product_name', $product->product_name) }}">
                                 @error('product_name')
                                 <small style="color:red">{{$message}}</small>
                                 @enderror
                             </div>
                              <div class="form-group">
                                 <label for="price">Harga</label>
-                                <input type="text" class="form-control @error('price') is-invalid @enderror" name="price" id="price" placeholder="Nama Barang" value="{{$product->price}}">
+                                <input type="text" class="form-control @error('price') is-invalid @enderror" name="price" id="price" placeholder="Harga" value="{{ old('price', $product->price) }}">
                                 @error('price')
                                 <small style="color:red">{{$message}}</small>
                                 @enderror

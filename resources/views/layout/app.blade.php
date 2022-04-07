@@ -65,7 +65,7 @@
              <li class="nav-item">
                 <a class="nav-link" href="/users">
                     <i class="fas fa-fw fa-users"></i>
-                    <span>Data Pengguna</span></a>
+                    <span>Data User</span></a>
             </li>
 
              <hr class="sidebar-divider">

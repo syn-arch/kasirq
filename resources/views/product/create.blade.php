@@ -27,7 +27,7 @@
                             </div>
                              <div class="form-group">
                                 <label for="price">Harga</label>
-                                <input type="text" class="form-control @error('price') is-invalid @enderror" name="price" id="price" placeholder="Nama Barang">
+                                <input type="text" class="form-control @error('price') is-invalid @enderror" name="price" id="price" placeholder="Harga">
                                 @error('price')
                                 <small style="color:red">{{$message}}</small>
                                 @enderror
