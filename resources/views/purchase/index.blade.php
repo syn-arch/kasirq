@@ -29,9 +29,14 @@
                         </thead>
                         <tbody>
                             @foreach ($purchases as $index => $purchase)
+                            @php
+                                setlocale(LC_ALL, 'IND');
+                            @endphp
                             <tr>
                                 <td>{{$index+1}}</td>
-                                <td>{{$purchase->created_at}}</td>
+                                <td>{{
+                                    strftime( "%A, %d %B %Y %H:%M", strtotime($purchase->created_at))
+                                }}</td>
                                 <td class="text-right">{{ number_format($purchase->total) }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('purchases.show', $purchase->id) }}" class="btn btn-success"><i class="fa fa-eye"></i> Detail</a>

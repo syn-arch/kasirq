@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Data Pembelian')
+@section('title', 'Pembelian')
 
 @section('content')
 

@@ -74,7 +74,7 @@ class PurchaseController extends Controller
      */
     public function show(Purchase $purchase)
     {
-        //
+        return view('purchase.show', compact('purchase'));
     }
 
     /**
