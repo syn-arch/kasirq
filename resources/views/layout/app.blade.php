@@ -20,7 +20,7 @@
     <!-- Custom styles for this template-->
     <link href="/sbadmin2/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="/sbadmin2/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 
 <body id="page-top">
@@ -62,7 +62,7 @@
                     <i class="fas fa-fw fa-shopping-bag"></i>
                     <span>Data Barang</span></a>
             </li>
-             <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link" href="/users">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Data User</span></a>
@@ -73,65 +73,16 @@
             <div class="sidebar-heading">
                 Transaksi
             </div>
-
-             <li class="nav-item">
-                    <a
-                        class="nav-link collapsed"
-                        href="#"
-                        data-toggle="collapse"
-                        data-target="#purchases"
-                        aria-expanded="true"
-                        aria-controls="purchases"
-                    >
-                        <i class="fas fa-fw fa-cart-arrow-down"></i>
-                        <span>Pembelian</span>
-                    </a>
-                    <div
-                        id="purchases"
-                        class="collapse"
-                        aria-labelledby="headingTwo"
-                        data-parent="#accordionSidebar"
-                    >
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Purchases</h6>
-                            <a class="collapse-item" href="/purchases"
-                                >Pembelian</a
-                            >
-                             <a class="collapse-item" href="/purchases/history"
-                                >Riwayat Pembelian</a
-                            >
-                        </div>
-                    </div>
-                </li>
-                 <li class="nav-item">
-                    <a
-                        class="nav-link collapsed"
-                        href="#"
-                        data-toggle="collapse"
-                        data-target="#sales"
-                        aria-expanded="true"
-                        aria-controls="sales"
-                    >
-                        <i class="fas fa-fw fa-cart-plus"></i>
-                        <span>Penjualan</span>
-                    </a>
-                    <div
-                        id="sales"
-                        class="collapse"
-                        aria-labelledby="headingTwo"
-                        data-parent="#accordionSidebar"
-                    >
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Sales</h6>
-                            <a class="collapse-item" href="/sales"
-                                >Penjualan</a
-                            >
-                             <a class="collapse-item" href="/sales/history"
-                                >Riwayat Penjualan</a
-                            >
-                        </div>
-                    </div>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/purchases/create">
+                    <i class="fas fa-fw fa-cart-plus"></i>
+                    <span>Pembelian</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/purchases">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Riwayat Pembelian</span></a>
+            </li>
 
             <hr class="sidebar-divider">
 
@@ -143,11 +94,6 @@
                 <a class="nav-link" href="/report/purchases">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Laporan Pembelian</span></a>
-            </li>
-             <li class="nav-item">
-                <a class="nav-link" href="/report/sales">
-                    <i class="fas fa-fw fa-chart-pie"></i>
-                    <span>Laporan Penjualan</span></a>
             </li>
 
             <!-- Divider -->
@@ -252,6 +198,8 @@
     <script src="/sbadmin2/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="/sbadmin2/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
+    {{-- select2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     @stack('js')
 
 </body>
