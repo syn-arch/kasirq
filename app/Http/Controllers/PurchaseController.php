@@ -7,6 +7,7 @@ use App\Models\PurchaseDetail;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class PurchaseController extends Controller
 {
@@ -75,6 +76,17 @@ class PurchaseController extends Controller
     public function show(Purchase $purchase)
     {
         return view('purchase.show', compact('purchase'));
+    }
+
+    public function print(Purchase $purchase)
+    {
+        $pdf = PDF::loadview('purchase.print', compact('purchase'));
+        $pdf->setOptions([
+            'dpi' => 50,
+        ]);
+        $pdf->setPaper('a6', 'potrait');
+
+        return $pdf->stream('purchase.pdf');
     }
 
     /**

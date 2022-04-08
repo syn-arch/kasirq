@@ -11,12 +11,15 @@ Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'loginAction']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
-Route::get('/dashboard', DashboardController::class);
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', DashboardController::class);
 
-Route::get('/products/get_product/{id_product}', [ProductController::class, 'get_product']);
+    Route::get('/products/get_product/{product}', [ProductController::class, 'get_product']);
+    Route::get('/purchases/print/{purchase}', [PurchaseController::class, 'print']);
 
-Route::resources([
-    '/products' => ProductController::class,
-    '/users' => UserController::class,
-    '/purchases' => PurchaseController::class,
-]);
+    Route::resources([
+        '/products' => ProductController::class,
+        '/users' => UserController::class,
+        '/purchases' => PurchaseController::class,
+    ]);
+});
