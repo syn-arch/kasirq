@@ -91,7 +91,7 @@
                 Laporan
             </div>
             <li class="nav-item">
-                <a class="nav-link" href="/report/purchases">
+                <a class="nav-link" href="/reports">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Laporan Pembelian</span></a>
             </li>

@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,4 +23,7 @@ Route::middleware('auth')->group(function () {
         '/users' => UserController::class,
         '/purchases' => PurchaseController::class,
     ]);
+
+    Route::get('/reports', [ReportController::class, 'index']);
+    Route::get('/reports/print/{start}/{end}', [ReportController::class, 'print']);
 });
