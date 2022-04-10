@@ -30,8 +30,8 @@ class ProductSeeder extends Seeder
         ]);
 
         Product::create([
-            'product_name' => 'Sabun batang',
-            'price' => 3000,
+            'product_name' => 'Kopikap',
+            'price' => 5000,
         ]);
 
         Product::create([
