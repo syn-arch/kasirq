@@ -6,24 +6,25 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'loginAction']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
-Route::middleware('auth')->group(function () {
+Route::group(['middleware' => 'checkRole:admin_kasir'], function () {
     Route::get('/dashboard', DashboardController::class);
 
-    Route::get('/products/get_product/{product}', [ProductController::class, 'get_product']);
-    Route::get('/purchases/print/{purchase}', [PurchaseController::class, 'print']);
+    Route::get('/reports', [ReportController::class, 'index']);
+    Route::get('/reports/print/{start}/{end}', [ReportController::class, 'print']);
 
     Route::resources([
         '/products' => ProductController::class,
         '/users' => UserController::class,
-        '/purchases' => PurchaseController::class,
     ]);
-
-    Route::get('/reports', [ReportController::class, 'index']);
-    Route::get('/reports/print/{start}/{end}', [ReportController::class, 'print']);
 });
+
+Route::get('/purchases/get_product/{product}', [PurchaseController::class, 'get_product']);
+Route::resource('purchases', PurchaseController::class);
+Route::get('/purchases/print/{purchase}', [PurchaseController::class, 'print']);

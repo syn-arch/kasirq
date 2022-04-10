@@ -104,7 +104,7 @@
             function addToTable(){
                 const id_product = $('#id_product').val();
 
-                $.get(`/products/get_product/${id_product}`, function(res){
+                $.get(`/purchases/get_product/${id_product}`, function(res){
                     const amount = $('.amount').val() || 1;
                     const total_price = parseInt(amount) * parseInt(res.data.price);
 

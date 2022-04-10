@@ -26,6 +26,7 @@ class DashboardController extends Controller
             ->join('products', 'purchase_detail.id_product', '=', 'products.id')
             ->limit(5)
             ->groupBy('product_name')
+            ->limit(5)
             ->get()
             ->toArray();
 

@@ -42,7 +42,7 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
+            @if (auth()->user()->role == 'admin_kasir')
             <li class="nav-item">
                 <a class="nav-link" href="/dashboard">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -67,6 +67,7 @@
                     <i class="fas fa-fw fa-users"></i>
                     <span>Data User</span></a>
             </li>
+            @endif
 
              <hr class="sidebar-divider">
 
@@ -84,9 +85,10 @@
                     <span>Riwayat Pembelian</span></a>
             </li>
 
-            <hr class="sidebar-divider">
 
             <!-- Heading -->
+            @if (auth()->user()->role == 'admin_kasir')
+            <hr class="sidebar-divider">
             <div class="sidebar-heading">
                 Laporan
             </div>
@@ -95,6 +97,7 @@
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Laporan Pembelian</span></a>
             </li>
+            @endif
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

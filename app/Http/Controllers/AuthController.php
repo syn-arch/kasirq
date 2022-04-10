@@ -22,7 +22,10 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('dashboard');
+            if (Auth::user()->isAdmin()) {
+                return redirect()->intended('dashboard');
+            }
+            return redirect()->intended('/purchases/create');
         }
 
         return back()->withErrors([

@@ -91,11 +91,4 @@ class ProductController extends Controller
 
         return redirect('/products')->with('message', 'Data berhasil dihapus');
     }
-
-    public function get_product($id_product)
-    {
-        return response()->json([
-            'data' => Product::find($id_product)
-        ]);
-    }
 }

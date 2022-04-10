@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Purchase;
 use App\Models\PurchaseDetail;
 use App\Models\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PDF;
@@ -18,7 +19,11 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        $purchases = Purchase::all();
+        if (auth()->user()->role === 'kasir') {
+            $purchases = Purchase::whereDate('created_at', Carbon::today())->get();
+        } else {
+            $purchases = Purchase::all();
+        }
 
         return view('purchase.index', compact('purchases'));
     }
@@ -122,5 +127,12 @@ class PurchaseController extends Controller
         $purchase->delete();
 
         return redirect('/purchases')->with('message', 'Data berhasil dihapus');
+    }
+
+    public function get_product($id_product)
+    {
+        return response()->json([
+            'data' => Product::find($id_product)
+        ]);
     }
 }
