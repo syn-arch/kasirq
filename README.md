@@ -32,3 +32,13 @@ php artisan db:seed
 ```bash
 php artisan serve
 ```
+
+```bash
+Admin Kasir
+email : adminkasir@mail.com
+password : adminkasir
+
+Kasir
+email : kasir@mail.com
+password : kasir
+```
