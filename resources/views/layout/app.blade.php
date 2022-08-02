@@ -230,6 +230,7 @@
 
     {{-- select2 --}}
     <script src="/select2.min.js"></script>
+    <script src="/script.js"></script>
     @stack('js')
 
 </body>
