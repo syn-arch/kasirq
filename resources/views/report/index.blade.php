@@ -50,7 +50,7 @@
                                 <th>Tanggal</th>
                                 <th>Nama Barang</th>
                                 <th>Harga</th>
-                                <th>Jumlah Terbeli</th>
+                                <th>Jumlah</th>
                                 <th>Total</th>
                             </tr>
                         </thead>
@@ -58,11 +58,12 @@
                             @foreach ($reports as $index => $report)
                             <tr>
                                 <td>{{$index+1}}</td>
-                                <td>{{ $report->date }}</td>
+                                <td>{{ date('d-m-Y', strtotime($report->date)) }}</td>
                                 <td>{{ $report->product_name }}</td>
                                 <td class="text-right">{{ number_format($report->price) }}</td>
                                 <td>{{ $report->amount }}</td>
-                                <td class="text-right subtotal">{{ number_format($report->total) }}</td>
+                                <td class="text-right subtotal">{{ number_format($report->amount * $report->price) }}
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

@@ -9,6 +9,7 @@ use App\Models\Outlet;
 use App\Models\Setting;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PDF;
@@ -212,7 +213,7 @@ class PurchaseController extends Controller
                 'id_user' => auth()->user()->id,
                 'discount' => $request->discount,
                 'rebate' => $request->rebate,
-                'cash' => str_replace('.', '', $request->cash),
+                'cash' => str_replace(',', '', str_replace('.', '', $request->cash)),
             ]);
 
             for ($i = 0; $i < count($request->id_product); $i++) {

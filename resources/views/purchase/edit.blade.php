@@ -163,7 +163,9 @@
 <script>
     $(function(){
 
-            $('.select2').select2();
+            $('.select2').select2({
+                theme: 'bootstrap4'
+            });
 
             function formatRupiah(number){
                 var number_string = number.toString().replace(/[^,\d]/g, '').toString(),
@@ -253,7 +255,7 @@
                 addToTable();
             });
 
-            $(document).on('keyup', '.amount_item', function(){
+            $(document).on('keyup change', '.amount_item', function(){
                 const amount = $(this).val();
                 const price = $(this).closest('tr').find('td:eq(2)').text().replace('.', '').replace('.', '').replace('.', '').replace(',', '').replace(',', '').replace(',', '');
                 const total_price = parseInt(amount) * parseInt(price);
@@ -276,7 +278,7 @@
                 $('.grand-total-input').val(grandTotal);
             });
 
-            $('.rebate').keyup(function(){
+            $('.rebate').on('keyup change',function(){
                 const rebate = $(this).val() || 0;
                 const total = $('.total-input').val();
 
@@ -289,7 +291,7 @@
                 $('.grand-total-input').val(grandTotal);
             });
 
-            $('.cash').keyup(function(){
+            $('.cash').on('keyup change',function(){
                 $(this).val(formatRupiah($(this).val()));
                 const cash = $(this).val().replace('.', '').replace('.', '').replace('.', '').replace('.', '').replace(',', '').replace(',', '').replace(',', '')
                 const grandTotal = $('.grand-total-input').val();

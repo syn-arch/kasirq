@@ -137,7 +137,7 @@
     $(function(){
 
             $('.select2').select2({
-                theme: 'bootstrap4',
+                theme: 'bootstrap4'
             });
 
             function formatRupiah(number){
@@ -199,7 +199,7 @@
 
             function sumTotal(){
                 const Total = $('.table tbody tr').toArray().reduce((a, b) => {
-                    const total = parseInt($(b).find('td:eq(4)').text().replace('.', ''));
+                    const total = parseInt($(b).find('td:eq(4)').text().replace('.', '').replace('.', '').replace(',', '').replace(',', ''));
                     return a + total;
                 }, 0);
 
@@ -228,9 +228,9 @@
                 addToTable();
             });
 
-            $(document).on('keyup', '.amount_item', function(){
+            $(document).on('keyup change', '.amount_item', function(){
                 const amount = $(this).val();
-                const price = $(this).closest('tr').find('td:eq(2)').text().replace('.', '').replace('.', '').replace('.', '');
+                const price = $(this).closest('tr').find('td:eq(2)').text().replace('.', '').replace('.', '').replace('.', '').replace(',', '').replace(',', '').replace(',', '');
                 const total_price = parseInt(amount) * parseInt(price);
 
                 $(this).closest('tr').find('td:eq(4)').text(formatRupiah(total_price));
@@ -251,7 +251,7 @@
                 $('.grand-total-input').val(grandTotal);
             });
 
-            $('.rebate').keyup(function(){
+            $('.rebate').on('keyup change',function(){
                 const rebate = $(this).val() || 0;
                 const total = $('.total-input').val();
 
@@ -264,9 +264,9 @@
                 $('.grand-total-input').val(grandTotal);
             });
 
-            $('.cash').keyup(function(){
+            $('.cash').on('keyup change',function(){
                 $(this).val(formatRupiah($(this).val()));
-                const cash = $(this).val().replace('.', '').replace('.', '').replace('.', '').replace('.', '')
+                const cash = $(this).val().replace('.', '').replace('.', '').replace('.', '').replace('.', '').replace(',', '').replace(',', '').replace(',', '')
                 const grandTotal = $('.grand-total-input').val();
 
                 const kembalian = parseInt(cash) - parseInt(grandTotal);
