@@ -32,3 +32,4 @@ Route::group(['middleware' => 'checkRole:admin_kasir'], function () {
 Route::get('/purchases/get_product/{product}', [PurchaseController::class, 'get_product']);
 Route::resource('purchases', PurchaseController::class);
 Route::get('/purchases/print/{purchase}', [PurchaseController::class, 'print']);
+Route::get('/purchases/cetak/{purchase}', [PurchaseController::class, 'cetak']);

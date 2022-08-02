@@ -170,8 +170,9 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
+                    @if (!isset($noTitle))
                     <h1 class="h3 mb-4 text-gray-800">@yield('title')</h1>
+                    @endif
 
                     @yield('content')
 

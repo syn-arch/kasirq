@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Purchase</title>
     <style>
-        @page { margin: 5px; }
-        body { margin: 5px; }
+        @page {
+            margin: 5px;
+        }
+
+        body {
+            margin: 5px;
+        }
+
         * {
             font-family: sans-serif;
         }
+
         .container {
             display: flex;
             justify-content: center;
@@ -43,40 +51,66 @@
         }
     </style>
 </head>
+
 <body>
     @php
-        setlocale(LC_ALL, 'IND');
+    setlocale(LC_ALL, 'IND');
     @endphp
     <div class="container">
         <table class="table tableb-bordered" border="0" cellpadding="5" cellspacing="0">
-            <thead>
-                <tr>
-                    <td colspan="4"><strong>Tanggal</strong> : {{  strftime( "%A, %d %B %Y %H:%M", strtotime($purchase->created_at)) }}</td>
-                </tr>
-                <tr class="border header">
-                    <th class="text-left">Barang</th>
-                    <th class="text-right">Harga</th>
-                    <th class="text-right">Qty</th>
-                    <th class="text-right">Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($purchase->purchase_detail as $index => $detail)
-                <tr class="border-item">
-                    <td>{{$detail->product->product_name}}</td>
-                    <td class="text-right">{{ number_format($detail->price) }}</td>
-                    <td class="text-right">{{ $detail->amount }}</td>
-                    <td class="text-right">{{ number_format($detail->price * $detail->amount) }}</td>
-                </tr>
-                @endforeach
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th colspan="3" class="text-right">Grand Total</th>
-                    <th class="text-right">{{number_format($purchase->total)}}</th>
-                </tr>
-            </tfoot>
+            <tr>
+                <td colspan="4" align="center">
+                    <span>
+                        <strong>{{$outlet->name}} </strong> <br>
+                        {{$outlet->address}} <br>
+                        {{$outlet->phone}}
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4"><strong>Tanggal</strong> : {{ strftime( "%A, %d %B %Y %H:%M",
+                    strtotime($purchase->created_at)) }}</td>
+            </tr>
+            <tr class="border header">
+                <th class="text-left">Barang</th>
+                <th class="text-right">Harga</th>
+                <th class="text-right">Qty</th>
+                <th class="text-right">Total</th>
+            </tr>
+            @foreach ($purchase->purchase_detail as $index => $detail)
+            <tr class="border-item">
+                <td>{{$detail->product->product_name}}</td>
+                <td class="text-right">{{ number_format($detail->price) }}</td>
+                <td class="text-right">{{ $detail->amount }}</td>
+                <td class="text-right">{{ number_format($detail->price * $detail->amount) }}</td>
+            </tr>
+            @endforeach
+            <tr>
+                <th colspan="3" class="text-right">Subtotal</th>
+                <th class="text-right">{{number_format($purchase->subtotal)}}</th>
+            </tr>
+            <tr>
+                <th colspan="3" class="text-right">Discount</th>
+                <th class="text-right">{{ $purchase->discount }} %</th>
+            </tr>
+            <tr>
+                <th colspan="3" class="text-right">Potongan</th>
+                <th class="text-right">{{number_format($purchase->rebate)}}</th>
+            </tr>
+            <tr>
+                <th colspan="3" class="text-right">Grand Total</th>
+                <th class="text-right">{{number_format($purchase->total)}}</th>
+            </tr>
+            <tr>
+                <th colspan="3" class="text-right">Cash</th>
+                <th class="text-right">{{number_format($purchase->cash)}}</th>
+            </tr>
+            <tr>
+                <th colspan="3" class="text-right">Kembalian</th>
+                <th class="text-right">{{number_format($purchase->cash - $purchase->total)}}</th>
+            </tr>
         </table>
     </div>
 </body>
+
 </html>

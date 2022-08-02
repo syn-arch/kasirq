@@ -5,7 +5,7 @@
 @section('content')
 
 @php
-    setlocale(LC_ALL, 'IND');
+setlocale(LC_ALL, 'IND');
 @endphp
 
 <div class="row">
@@ -42,7 +42,8 @@
                                         <td>{{$detail->product->product_name}}</td>
                                         <td class="text-right">{{ number_format($detail->price) }}</td>
                                         <td class="text-right">{{ $detail->amount }}</td>
-                                        <td class="text-right">{{ number_format($detail->price * $detail->amount) }}</td>
+                                        <td class="text-right">{{ number_format($detail->price * $detail->amount) }}
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -51,8 +52,44 @@
                                         <th></th>
                                         <th></th>
                                         <th></th>
+                                        <th class="text-right">Subtotal</th>
+                                        <th class="text-right">Rp . {{number_format($purchase->subtotal)}}</th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th class="text-right">Diskon</th>
+                                        <th class="text-right">{{ $purchase->discount }} %</th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th class="text-right">Potongan</th>
+                                        <th class="text-right">Rp . {{number_format($purchase->rebate)}}</th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
                                         <th class="text-right">Grand Total</th>
                                         <th class="text-right">Rp . {{number_format($purchase->total)}}</th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th class="text-right">Cash</th>
+                                        <th class="text-right">Rp . {{number_format($purchase->cash)}}</th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th class="text-right">Kembalian</th>
+                                        <th class="text-right">Rp . {{number_format($purchase->cash -
+                                            $purchase->total)}}</th>
                                     </tr>
                                 </tfoot>
                             </table>

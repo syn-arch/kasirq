@@ -5,10 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Purchase;
 use App\Models\PurchaseDetail;
 use App\Models\Product;
+use App\Models\Outlet;
+use App\Models\Setting;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PDF;
+use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
+use Mike42\Escpos\Printer;
 
 class PurchaseController extends Controller
 {
@@ -22,9 +27,8 @@ class PurchaseController extends Controller
         if (auth()->user()->role === 'kasir') {
             $purchases = Purchase::whereDate('created_at', Carbon::today())->get();
         } else {
-            $purchases = Purchase::all();
+            $purchases = Purchase::orderBy('created_at', 'desc')->get();
         }
-
         return view('purchase.index', compact('purchases'));
     }
 
@@ -36,7 +40,8 @@ class PurchaseController extends Controller
     public function create()
     {
         $products = Product::all();
-        return view('purchase.create', compact('products'));
+        $noTitle = true;
+        return view('purchase.create', compact('products', 'noTitle'));
     }
 
     /**
@@ -51,7 +56,12 @@ class PurchaseController extends Controller
 
         try {
             $puchase = Purchase::create([
-                'total' => $request->total
+                'total' => $request->total,
+                'subtotal' => $request->subtotal,
+                'id_user' => auth()->user()->id,
+                'discount' => $request->discount,
+                'rebate' => $request->rebate,
+                'cash' => str_replace('.', '', $request->cash),
             ]);
 
             for ($i = 0; $i < count($request->id_product); $i++) {
@@ -83,9 +93,74 @@ class PurchaseController extends Controller
         return view('purchase.show', compact('purchase'));
     }
 
+    public function cetak(Purchase $purchase)
+    {
+        setlocale(LC_ALL, 'IND');
+        $setting = Setting::first();
+        $outlet = Outlet::first();
+
+        try {
+            // windows
+            $connector = new WindowsPrintConnector($setting->printer);
+            $printer = new Printer($connector);
+
+            $printer->setJustification(Printer::JUSTIFY_CENTER);
+            $printer->text($outlet->name . "\n");
+            $printer->text($outlet->address . "\n");
+            $printer->text($outlet->phone . "\n");
+            $printer->text($outlet->email . "\n");
+            $printer->text("---------------------------------------\n");
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+            $printer->text("Tgl    : " . strftime("%A, %d %B %Y %H:%M", strtotime($purchase->created_at)) . "\n");
+            $printer->text("Kasir  : " . $purchase->user->name . "\n");
+
+            $printer->text("----------------------------------------\n");
+            $printer->text("Barang          Jml    Harga    SubTotal\n");
+            $printer->text("----------------------------------------\n");
+
+            // item barang
+            foreach ($purchase->purchase_detail as $row) {
+                $harga = number_format($row->price);
+                $total_harga = number_format($row->price * $row->amount);
+                $printer->text($row->product->product_name . "\n");
+                $printer->setJustification(2);
+                $printer->text("             {$row->amount} X {$harga}   {$total_harga}\n");
+                $printer->setJustification();
+            }
+
+            $printer->setJustification(Printer::JUSTIFY_CENTER);
+            $printer->text("---------------------------------------\n");
+            $printer->setJustification(Printer::JUSTIFY_RIGHT);
+
+            $lineTotal = sprintf('%-5.40s %-1.05s %13.40s', 'Total Belanja', '=', number_format($purchase->subtotal));
+            $printer->text("$lineTotal\n");
+            $lineDisc = sprintf('%-5.40s %-1.05s %13.40s', 'Diskon', '=', $purchase->discount . ' %');
+            $printer->text("$lineDisc\n");
+            $linePotongan = sprintf('%-5.40s %-1.05s %13.40s', 'Potongan', '=', number_format($purchase->potongan));
+            $printer->text("$linePotongan\n");
+            $lineTotal = sprintf('%-5.40s %-1.05s %13.40s', 'Total Bayar', '=', number_format($purchase->total));
+            $printer->text("$lineTotal\n");
+            $cash = sprintf('%-5.40s %-1.05s %13.40s', 'Cash', '=', number_format($purchase->cash));
+            $printer->text("$cash\n");
+            $lineKembalian = sprintf('%-5.40s %-1.05s %13.40s', 'Kembalian', '=', number_format($purchase->cash - $purchase->total));
+            $printer->text("$lineKembalian\n");
+
+            $printer->setJustification(Printer::JUSTIFY_CENTER);
+            $printer->text("---------------------------------------\n");
+            $printer->text("***TERIMA KASIH***\n");
+            $printer->feed(2);
+            $printer->close();
+
+            return redirect('purchases/create');
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage() . "\n";
+        }
+    }
+
     public function print(Purchase $purchase)
     {
-        $pdf = PDF::loadview('purchase.print', compact('purchase'));
+        $outlet = Outlet::first();
+        $pdf = FacadePdf::loadview('purchase.print', compact('purchase', 'outlet'));
         $pdf->setOptions([
             'dpi' => 50,
         ]);

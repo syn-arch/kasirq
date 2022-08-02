@@ -3,23 +3,20 @@
 @section('title', 'Pembelian')
 
 @section('content')
-
-<div class="row">
-    <div class="col-md-12">
-        <div class="card shadow">
-            <div class="card-header">
-                <h6 class="m-0 font-weight-bold text-primary">Tambah Pembelian</h6>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <form action="{{ route('purchases.store') }}" method="POST">
+<form action="{{ route('purchases.store') }}" method="POST" class="purchase-form">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
                             @csrf
                             <div class="row">
                                 <div class="col-lg-3">
                                     <div class="form-group">
                                         <label for="id_product">Nama Barang</label>
-                                        <select name="id_product" id="id_product" class="form-control select2">
+                                        <select name="id_product" id="id_product" class="select2 form-control"
+                                            autofocus>
                                             <option value="">Pilih Barang</option>
                                             @foreach ($products as $product)
                                             <option value="{{ $product->id }}">{{ $product->product_name }}</option>
@@ -52,36 +49,91 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                             </div>
                             <div class="row mb-4">
-                                <div class="col-md-3 offset-md-9">
-                                    <strong>Grand Total</strong>
-                                    <input type="hidden" name="total" class="grand-total-input">
-                                    <span class="float-right mr-1 grand-total"></span>
+                                <div class="col-md-5 offset-md-7">
+                                    <strong>Subtotal</strong>
+                                    <input type="hidden" name="subtotal" class="total-input">
+                                    <span class="float-right mr-1 total"></span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3 offset-md-9">
-                                    <button type="submit" class="btn btn-primary btn-block">Simpan</button>
+                                <div class="col-md-5 offset-md-7">
+                                    <a href="#paymentModal" data-toggle="modal" class="btn
+                                        btn-primary btn-block"><i class="fa fa-credit-card"></i> Bayar</a>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+    <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Bayar</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <select name="discount" id="discount" class="form-control discount">
+                                <option value="0">-- Diskon --</option>
+                                <option value="5">5 %</option>
+                                <option value="10">10 %</option>
+                                <option value="20">20 %</option>
+                                <option value="30">30 %</option>
+                                <option value="40">40 %</option>
+                                <option value="50">50 %</option>
+                                <option value="60">60 %</option>
+                                <option value="70">70 %</option>
+                                <option value="80">80 %</option>
+                                <option value="90">90 %</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control rebate" name="rebate" placeholder="Rebate">
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <strong>Grand Total</strong>
+                            <input type="hidden" name="total" class="grand-total-input">
+                            <span class="float-right mr-1 grand-total"></span>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <input type="text" name="cash" class="form-control cash" placeholder="Cash">
+                            <input type="text" name="kembalian" class="form-control mt-2 kembalian"
+                                placeholder="Kembalian" readonly>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary btn-block">Simpan</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 @endsection
 
 @push('js')
-    <script>
-        $(function(){
+<script>
+    $(function(){
 
             $('.select2').select2();
 
@@ -133,26 +185,29 @@
                         $('.table tbody').append(row);
                         $('.amount').val('');
 
-                        sumGrandTotal();
+                        sumTotal();
                     }
 
                 })
             }
 
-            function sumGrandTotal(){
-                const grandTotal = $('.table tbody tr').toArray().reduce((a, b) => {
+            function sumTotal(){
+                const Total = $('.table tbody tr').toArray().reduce((a, b) => {
                     const total = parseInt($(b).find('td:eq(4)').text().replace('.', ''));
                     return a + total;
                 }, 0);
 
-                $('.grand-total').text(formatRupiah(grandTotal));
-                $('.grand-total-input').val(grandTotal);
+                $('.total').text(formatRupiah(Total));
+                $('.total-input').val(Total);
+
+                $('.grand-total').text(formatRupiah(Total));
+                $('.grand-total-input').val(Total);
             }
 
             $(document).on('click', '.remove-from-table', function(e){
                 e.preventDefault();
                 $(this).closest('tr').remove();
-                sumGrandTotal();
+                sumTotal();
             })
 
             $('.amount').on('keydown', function(e){
@@ -165,8 +220,71 @@
             $('.add-to-table').click(function(e){
                 e.preventDefault();
                 addToTable();
-            })
+            });
 
-        })
-    </script>
+            $('.discount').change(function(){
+                const discount = $(this).val();
+                const total = $('.total-input').val();
+
+                const rebate = $('.rebate').val() || 0;
+                const after_rebate = parseInt(total) - parseInt(rebate);
+
+                const grandTotal = parseInt(after_rebate) - (parseInt(after_rebate) * parseInt(discount) / 100);
+
+                $('.grand-total').text(formatRupiah(grandTotal));
+                $('.grand-total-input').val(grandTotal);
+            });
+
+            $('.rebate').keyup(function(){
+                const rebate = $(this).val();
+                const total = $('.total-input').val();
+
+                const discount = $('.discount').val() || 0;
+                const after_diskon = parseInt(total) - (parseInt(total) * parseInt(discount) / 100);
+
+                const grandTotal = parseInt(after_diskon) - parseInt(rebate);
+
+                $('.grand-total').text(formatRupiah(grandTotal));
+                $('.grand-total-input').val(grandTotal);
+            });
+
+            $('.cash').keyup(function(){
+                $(this).val(formatRupiah($(this).val()));
+                const cash = $(this).val().replace('.', '').replace('.', '').replace('.', '').replace('.', '')
+                const grandTotal = $('.grand-total-input').val();
+
+                const kembalian = parseInt(cash) - parseInt(grandTotal);
+
+                $('.kembalian').val(formatRupiah(kembalian));
+            });
+
+            // shortcut
+            function shortcut(e) {
+                if (e.keyCode == 112) {
+                    e.preventDefault();
+                    $("#paymentModal").modal('show');
+                    setTimeout(() => {
+                        $('.cash').focus();
+                    }, 500);
+                }
+            }
+
+            // shortcut
+            $(document).on("keyup keydown", "input", function (e) {
+            shortcut(e);
+            });
+
+            $(document).on("keyup keydown", function (e) {
+            shortcut(e);
+            });
+
+            $('.cash').keydown(function(e){
+                if (e.keyCode === 13) {
+                    e.preventDefault();
+                    $('.purchase-form').submit();
+                }
+            });
+
+        });
+</script>
 @endpush

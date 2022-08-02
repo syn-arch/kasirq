@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddRebateToPurchasesTable extends Migration
+class AddSubtotalUserToPurchasesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddRebateToPurchasesTable extends Migration
     public function up()
     {
         Schema::table('purchases', function (Blueprint $table) {
-            $table->integer('rebate')->nullable();
+            $table->integer('subtotal');
         });
     }
 
@@ -26,7 +26,7 @@ class AddRebateToPurchasesTable extends Migration
     public function down()
     {
         Schema::table('purchases', function (Blueprint $table) {
-            $table->dropColumn('rebate');
+            $table->dropColumn('subtotal');
         });
     }
 }
