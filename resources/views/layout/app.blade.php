@@ -29,7 +29,8 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion {{ app()->view->getSections()['title'] === 'Pembelian' ? 'toggled' : '' }}" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion {{ app()->view->getSections()['title'] === 'Pembelian' ? 'toggled' : '' }}"
+            id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
@@ -46,30 +47,45 @@
             <li class="nav-item">
                 <a class="nav-link" href="/dashboard">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                    <span>Dashboard</span>
+                </a>
             </li>
 
-            <!-- Divider -->
             <hr class="sidebar-divider">
-
-            <!-- Heading -->
+            <div class="sidebar-heading">
+                Settings
+            </div>
+            <li class="nav-item">
+                <a class="nav-link" href="/settings">
+                    <i class="fas fa-cogs"></i>
+                    <span>Settings</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/outlets">
+                    <i class="fas fa-store"></i>
+                    <span>Outlet</span>
+                </a>
+            </li>
+            <hr class="sidebar-divider">
             <div class="sidebar-heading">
                 Master Data
             </div>
-
             <li class="nav-item">
                 <a class="nav-link" href="/products">
                     <i class="fas fa-fw fa-shopping-bag"></i>
-                    <span>Data Barang</span></a>
+                    <span>Data Barang</span>
+                </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/users">
                     <i class="fas fa-fw fa-users"></i>
-                    <span>Data User</span></a>
+                    <span>Data User</span>
+                </a>
             </li>
             @endif
 
-             <hr class="sidebar-divider">
+            <hr class="sidebar-divider">
 
             <div class="sidebar-heading">
                 Transaksi
@@ -77,12 +93,14 @@
             <li class="nav-item">
                 <a class="nav-link" href="/purchases/create">
                     <i class="fas fa-fw fa-cart-plus"></i>
-                    <span>Pembelian</span></a>
+                    <span>Pembelian</span>
+                </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/purchases">
                     <i class="fas fa-fw fa-book"></i>
-                    <span>Riwayat Pembelian</span></a>
+                    <span>Riwayat Pembelian</span>
+                </a>
             </li>
 
 
@@ -95,7 +113,8 @@
             <li class="nav-item">
                 <a class="nav-link" href="/reports">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Laporan Pembelian</span></a>
+                    <span>Laporan Pembelian</span>
+                </a>
             </li>
             @endif
 
@@ -106,8 +125,8 @@
                 <form action="/logout" method="POST">
                     @csrf
                     <button type="submit" class="nav-link btn">
-                    <i class="fas fa-fw fa-arrow-left"></i>
-                    <span>Logout</span></button>
+                        <i class="fas fa-fw fa-arrow-left"></i>
+                        <span>Logout</span></button>
                 </form>
 
             </li>
@@ -140,8 +159,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{Auth::user()->name}}</span>
-                                <img class="img-profile rounded-circle"
-                                    src="/sbadmin2/img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="/sbadmin2/img/undraw_profile.svg">
                             </a>
                         </li>
 
