@@ -103,7 +103,7 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <input type="number" class="form-control rebate" name="rebate" placeholder="Rebate">
+                            <input type="number" class="form-control rebate" name="rebate" placeholder="Potongan">
                         </div>
                     </div>
                     <div class="row mb-4">
@@ -136,7 +136,9 @@
 <script>
     $(function(){
 
-            $('.select2').select2();
+            $('.select2').select2({
+                theme: 'bootstrap4',
+            });
 
             function formatRupiah(number){
                 var number_string = number.toString().replace(/[^,\d]/g, '').toString(),

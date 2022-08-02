@@ -127,7 +127,7 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <input type="number" class="form-control rebate" name="rebate" placeholder="Rebate"
+                            <input type="number" class="form-control rebate" name="rebate" placeholder="Potongan"
                                 value="{{$purchase->rebate}}">
                         </div>
                     </div>
