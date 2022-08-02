@@ -45,7 +45,6 @@ class ReportController extends Controller
                 ->get();
         }
 
-
         $users = User::all();
         return view('report.index', compact('reports', 'users'));
     }

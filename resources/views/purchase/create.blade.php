@@ -19,7 +19,8 @@
                                             autofocus>
                                             <option value="">Pilih Barang</option>
                                             @foreach ($products as $product)
-                                            <option value="{{ $product->id }}">{{ $product->product_name }}</option>
+                                            <option value="{{ $product->id }}">{{ $product->product_name . ' | ' .
+                                                number_format($product->price) }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -168,12 +169,13 @@
                         const row = `
                             <tr data-id="${res.data.id}">
                                 <input type="hidden" name="id_product[]" value="${res.data.id}">
-                                <input type="hidden" name="amount[]" value="${amount}">
                                 <input type="hidden" name="price[]" value="${res.data.price}">
                                 <td>${rowLength}</td>
                                 <td>${res.data.product_name}</td>
                                 <td class="text-right">${formatRupiah(res.data.price)}</td>
-                                <td class="text-right">${amount}</td>
+                                <td class="text-right">
+                                    <input type="number" class="form-control amount_item" style="width:50%" name="amount[]" value="${amount}" autocomplete="off" />
+                                </td>
                                 <td class="text-right">${formatRupiah(total_price)}</td>
                                 <td class="text-center">
                                     <button class="btn btn-danger btn-sm remove-from-table">
@@ -186,6 +188,8 @@
                         $('.amount').val('');
 
                         sumTotal();
+                    }else{
+                        alert('Produk sudah ditambahkan!');
                     }
 
                 })
@@ -222,6 +226,16 @@
                 addToTable();
             });
 
+            $(document).on('keyup', '.amount_item', function(){
+                const amount = $(this).val();
+                const price = $(this).closest('tr').find('td:eq(2)').text().replace('.', '').replace('.', '').replace('.', '');
+                const total_price = parseInt(amount) * parseInt(price);
+
+                $(this).closest('tr').find('td:eq(4)').text(formatRupiah(total_price));
+
+                sumTotal();
+            });
+
             $('.discount').change(function(){
                 const discount = $(this).val();
                 const total = $('.total-input').val();
@@ -236,7 +250,7 @@
             });
 
             $('.rebate').keyup(function(){
-                const rebate = $(this).val();
+                const rebate = $(this).val() || 0;
                 const total = $('.total-input').val();
 
                 const discount = $('.discount').val() || 0;

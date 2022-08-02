@@ -22,12 +22,21 @@ class PurchaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (auth()->user()->role === 'kasir') {
             $purchases = Purchase::whereDate('created_at', Carbon::today())->orderBy('created_at', 'desc')->get();
         } else {
-            $purchases = Purchase::orderBy('created_at', 'desc')->get();
+            $start = $request->get('start');
+            $end = $request->get('end');
+
+            if ($start) {
+                $purchases = Purchase::whereRaw("DATE(created_at) >= '${start}'")
+                    ->whereRaw("DATE(created_at) <= '${end}'")
+                    ->orderBy('created_at', 'desc')->get();
+            } else {
+                $purchases = Purchase::whereDate('created_at', Carbon::today())->orderBy('created_at', 'desc')->get();
+            }
         }
         return view('purchase.index', compact('purchases'));
     }
@@ -79,7 +88,7 @@ class PurchaseController extends Controller
         }
 
 
-        return redirect('/purchases')->with('message', 'Data berhasil ditambahkan');
+        return redirect('/purchases/create')->with('message', 'Data berhasil ditambahkan');
     }
 
     /**
