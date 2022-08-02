@@ -186,6 +186,9 @@ class PurchaseController extends Controller
      */
     public function edit(Purchase $purchase)
     {
+        $products = Product::all();
+        $noTitle = true;
+        return view('purchase.edit', compact('purchase', 'products', 'noTitle'));
     }
 
     /**
@@ -197,6 +200,37 @@ class PurchaseController extends Controller
      */
     public function update(Request $request, Purchase $purchase)
     {
+        DB::beginTransaction();
+
+        $purchase->purchase_detail()->delete();
+        $purchase->delete();
+
+        try {
+            $puchase = Purchase::create([
+                'total' => $request->total,
+                'subtotal' => $request->subtotal,
+                'id_user' => auth()->user()->id,
+                'discount' => $request->discount,
+                'rebate' => $request->rebate,
+                'cash' => str_replace('.', '', $request->cash),
+            ]);
+
+            for ($i = 0; $i < count($request->id_product); $i++) {
+                PurchaseDetail::create([
+                    'id_purchase' => $puchase->id,
+                    'id_product' => $request->id_product[$i],
+                    'amount' => $request->amount[$i],
+                    'price' => $request->price[$i],
+                ]);
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+
+
+        return redirect('/purchases')->with('message', 'Data berhasil diubah');
     }
 
     /**

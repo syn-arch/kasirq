@@ -72,6 +72,8 @@
                                 <td class="text-center">
                                     <a href="{{ route('purchases.show', $purchase->id) }}" class="btn btn-success"><i
                                             class="fa fa-eye"></i> Detail</a>
+                                    <a href="{{ route('purchases.edit', $purchase->id) }}" class="btn btn-dark"><i
+                                            class="fa fa-edit"></i> Edit</a>
                                     <a href="/purchases/cetak/{{$purchase->id}}" class="btn btn-primary"><i
                                             class="fa fa-print"></i> Print</a>
                                     <a href="/purchases/print/{{$purchase->id}}" class="btn btn-warning"><i
