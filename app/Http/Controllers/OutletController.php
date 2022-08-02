@@ -14,72 +14,22 @@ class OutletController extends Controller
      */
     public function index()
     {
-        //
+        $outlet = outlet::first();
+
+        return view('outlet.index', compact('outlet'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function update(Request $request, outlet $outlet)
     {
-        //
-    }
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
+        ]);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $outlet->update($request->all());
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Outlet  $outlet
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Outlet $outlet)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Outlet  $outlet
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Outlet $outlet)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Outlet  $outlet
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Outlet $outlet)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Outlet  $outlet
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Outlet $outlet)
-    {
-        //
+        return redirect('/outlets')->with('message', 'Data berhasil diubah');
     }
 }

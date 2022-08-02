@@ -25,10 +25,8 @@ Route::group(['middleware' => 'checkRole:admin_kasir'], function () {
         '/products' => ProductController::class,
         '/users' => UserController::class,
         '/outlets' => OutletController::class,
+        '/settings' => SettingController::class,
     ]);
-
-    Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
-    Route::put('/settings/{setting}', [SettingController::class, 'update'])->name('settings.update');
 });
 
 Route::get('/purchases/get_product/{product}', [PurchaseController::class, 'get_product']);

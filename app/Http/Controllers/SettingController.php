@@ -27,6 +27,6 @@ class SettingController extends Controller
 
         $setting->update($request->all());
 
-        return redirect()->route('settings.index');
+        return redirect('/settings')->with('message', 'Data berhasil diubah');
     }
 }
