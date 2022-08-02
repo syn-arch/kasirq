@@ -25,7 +25,7 @@ class PurchaseController extends Controller
     public function index()
     {
         if (auth()->user()->role === 'kasir') {
-            $purchases = Purchase::whereDate('created_at', Carbon::today())->get();
+            $purchases = Purchase::whereDate('created_at', Carbon::today())->orderBy('created_at', 'desc')->get();
         } else {
             $purchases = Purchase::orderBy('created_at', 'desc')->get();
         }

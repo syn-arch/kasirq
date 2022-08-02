@@ -11,19 +11,29 @@
                 <h6 class="m-0 font-weight-bold text-primary">Laporan Pembelian</h6>
             </div>
             <div class="card-body">
-                @if (Request::has('start') && $end = Request::has('end'))
-                <a target="_blank" href="/reports/print/{{Request::get('start')}}/{{Request::get('end')}}" class="btn btn-success float-right"><i class="fa fa-print"></i> Cetak Laporan</a>
-                @endif
                 <div class="row">
                     <div class="col-md-6">
                         <form>
                             <div class="form-group">
                                 <label for="start">Dari</label>
-                                <input type="date" name="start" id="start" class="form-control" value="{{Request::get('start')}}">
+                                <input type="date" name="start" id="start" class="form-control"
+                                    value="{{Request::get('start')}}">
                             </div>
-                             <div class="form-group">
+                            <div class="form-group">
                                 <label for="end">Sampai</label>
-                                <input type="date" name="end" id="end" class="form-control" value="{{Request::get('end')}}">
+                                <input type="date" name="end" id="end" class="form-control"
+                                    value="{{Request::get('end')}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="id_user">Kasir</label>
+                                <select name="id_user" id="id_user" class="form-control">
+                                    <option value="">Semua</option>
+                                    @foreach ($users as $user)
+                                    <option value="{{$user->id}}" {{Request::get('id_user')==$user->id ? 'selected' :
+                                        ''}}>
+                                        {{$user->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary btn-block">Submit</button>
@@ -64,11 +74,16 @@
     </div>
 </div>
 
-    @push('js')
-        <script>
-            $(document).ready(function() {
-                $('#dataTable').DataTable();
+@push('js')
+<script>
+    $(document).ready(function() {
+                $('#dataTable').DataTable({
+                   dom: 'Bfrtip',
+                    buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    ]
+                });
             });
-        </script>
-    @endpush
+</script>
+@endpush
 @endsection
