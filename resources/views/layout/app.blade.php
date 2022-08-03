@@ -107,7 +107,6 @@
 
 
             <!-- Heading -->
-            @if (auth()->user()->role == 'admin_kasir')
             <hr class="sidebar-divider">
             <div class="sidebar-heading">
                 Laporan
@@ -118,6 +117,7 @@
                     <span>Laporan Harian</span>
                 </a>
             </li>
+            @if (auth()->user()->role == 'admin_kasir')
             <li class="nav-item">
                 <a class="nav-link" href="/reports">
                     <i class="fas fa-fw fa-chart-area"></i>
