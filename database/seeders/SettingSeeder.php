@@ -15,7 +15,8 @@ class SettingSeeder extends Seeder
     public function run()
     {
         Setting::create([
-            'printer' => 'kasirq'
+            'printer' => 'kasirq',
+            'min_discount' => 0,
         ]);
     }
 }

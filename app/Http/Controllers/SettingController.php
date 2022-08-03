@@ -23,6 +23,7 @@ class SettingController extends Controller
     {
         $request->validate([
             'printer' => 'required',
+            'min_discount' => 'required',
         ]);
 
         $setting->update($request->all());

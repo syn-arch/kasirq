@@ -51,7 +51,8 @@ class PurchaseController extends Controller
     {
         $products = Product::all();
         $noTitle = true;
-        return view('purchase.create', compact('products', 'noTitle'));
+        $min_discount = Setting::first()->min_discount;
+        return view('purchase.create', compact('products', 'noTitle', 'min_discount'));
     }
 
     /**
@@ -80,6 +81,8 @@ class PurchaseController extends Controller
                     'id_product' => $request->id_product[$i],
                     'amount' => $request->amount[$i],
                     'price' => $request->price[$i],
+                    'discount' => $request->discount_detail[$i],
+                    'total' => $request->total_detail[$i],
                 ]);
             }
             DB::commit();
@@ -87,7 +90,6 @@ class PurchaseController extends Controller
             DB::rollback();
             throw $e;
         }
-
 
         return redirect('/purchases/create')->with('message', 'Data berhasil ditambahkan');
     }
@@ -125,16 +127,16 @@ class PurchaseController extends Controller
             $printer->text("Kasir  : " . $purchase->user->name . "\n");
 
             $printer->text("----------------------------------------\n");
-            $printer->text("Barang          Jml    Harga    SubTotal\n");
+            $printer->text("Barang   Diskon   Jml    Harga    SubTotal\n");
             $printer->text("----------------------------------------\n");
 
             // item barang
             foreach ($purchase->purchase_detail as $row) {
                 $harga = number_format($row->price);
-                $total_harga = number_format($row->price * $row->amount);
+                $total_harga = number_format($row->total);
                 $printer->text($row->product->product_name . "\n");
                 $printer->setJustification(2);
-                $printer->text("             {$row->amount} X {$harga}   {$total_harga}\n");
+                $printer->text("    {$row->discount}%   {$row->amount} X {$harga}   {$total_harga}\n");
                 $printer->setJustification();
             }
 
@@ -189,7 +191,8 @@ class PurchaseController extends Controller
     {
         $products = Product::all();
         $noTitle = true;
-        return view('purchase.edit', compact('purchase', 'products', 'noTitle'));
+        $min_discount = Setting::first()->min_discount;
+        return view('purchase.edit', compact('purchase', 'products', 'noTitle', 'min_discount'));
     }
 
     /**
@@ -222,6 +225,8 @@ class PurchaseController extends Controller
                     'id_product' => $request->id_product[$i],
                     'amount' => $request->amount[$i],
                     'price' => $request->price[$i],
+                    'discount' => $request->discount_detail[$i],
+                    'total' => $request->total_detail[$i],
                 ]);
             }
             DB::commit();

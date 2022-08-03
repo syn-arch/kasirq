@@ -32,6 +32,15 @@
                                 @enderror
                             </div>
                             <div class="form-group">
+                                <label for="min_discount">Minimum Untuk Diskon</label>
+                                <input type="text" class="form-control @error('min_discount') is-invalid @enderror"
+                                    name="min_discount" id="min_discount" placeholder="Minimum Untuk Diskon"
+                                    value="{{ old('min_discount', $setting->min_discount) }}">
+                                @error('min_discount')
+                                <small style="color:red">{{$message}}</small>
+                                @enderror
+                            </div>
+                            <div class="form-group">
                                 <button type="submit" class="btn btn-primary btn-block">Simpan</button>
                             </div>
                         </form>

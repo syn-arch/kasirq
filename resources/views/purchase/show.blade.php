@@ -23,6 +23,9 @@ setlocale(LC_ALL, 'IND');
                         <div class="d-block mt-4">
                             <strong>Tanggal : </strong>
                             <span>{{ strftime( "%A, %d %B %Y %H:%M", strtotime($purchase->created_at))}}</span>
+                            <br>
+                            <strong>Kasir : </strong>
+                            <span>{{ $purchase->user->name }}</span>
                         </div>
                         <div class="table-responsive mt-4">
                             <table class="table tableb-bordered">
@@ -31,6 +34,7 @@ setlocale(LC_ALL, 'IND');
                                         <th>No</th>
                                         <th>Nama Barang</th>
                                         <th class="text-right">Harga</th>
+                                        <th class="text-right">Diskon</th>
                                         <th class="text-right">Jumlah</th>
                                         <th class="text-right">Total Harga</th>
                                     </tr>
@@ -41,14 +45,16 @@ setlocale(LC_ALL, 'IND');
                                         <td>{{$index+1}}</td>
                                         <td>{{$detail->product->product_name}}</td>
                                         <td class="text-right">{{ number_format($detail->price) }}</td>
+                                        <td class="text-right">{{ $detail->discount }} %</td>
                                         <td class="text-right">{{ $detail->amount }}</td>
-                                        <td class="text-right">{{ number_format($detail->price * $detail->amount) }}
+                                        <td class="text-right">{{ number_format($detail->total) }}
                                         </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
+                                        <th></th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -59,10 +65,12 @@ setlocale(LC_ALL, 'IND');
                                         <th></th>
                                         <th></th>
                                         <th></th>
+                                        <th></th>
                                         <th class="text-right">Diskon</th>
                                         <th class="text-right">{{ $purchase->discount }} %</th>
                                     </tr>
                                     <tr>
+                                        <th></th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -73,6 +81,7 @@ setlocale(LC_ALL, 'IND');
                                         <th></th>
                                         <th></th>
                                         <th></th>
+                                        <th></th>
                                         <th class="text-right">Grand Total</th>
                                         <th class="text-right">Rp . {{number_format($purchase->total)}}</th>
                                     </tr>
@@ -80,10 +89,12 @@ setlocale(LC_ALL, 'IND');
                                         <th></th>
                                         <th></th>
                                         <th></th>
+                                        <th></th>
                                         <th class="text-right">Cash</th>
                                         <th class="text-right">Rp . {{number_format($purchase->cash)}}</th>
                                     </tr>
                                     <tr>
+                                        <th></th>
                                         <th></th>
                                         <th></th>
                                         <th></th>

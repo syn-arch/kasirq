@@ -10,7 +10,7 @@ $(function () {
     function check_for_discount() {
         const subtotal = $(".total-input").val();
 
-        if (parseInt(subtotal) >= 50000) {
+        if (parseInt(subtotal) >= min_discount) {
             $(".discount").removeAttr("disabled");
             $(".rebate").removeAttr("disabled");
         } else {
@@ -43,10 +43,12 @@ $(function () {
 
         $.get(`/purchases/get_product/${id_product}`, function (res) {
             const amount = $(".amount").val() || 1;
-            const total_price = parseInt(amount) * parseInt(res.data.price);
+            diskon = parseInt(res.data.price) * (res.data.discount / 100);
 
+            const price_after_discount = parseInt(res.data.price) - diskon;
+
+            const total_price = parseInt(amount) * price_after_discount;
             const row = $(document).find(`tr[data-id="${res.data.id}"]`);
-
             const rowLength = $("table").find("tr").length;
 
             if (row.length === 0) {
@@ -58,11 +60,18 @@ $(function () {
                                 <input type="hidden" name="price[]" value="${
                                     res.data.price
                                 }">
+                                <input type="hidden" name="discount_detail[]" value="${
+                                    res.data.discount
+                                }">
+                                <input type="hidden" class="total_detail" name="total_detail[]" value="${total_price}">
                                 <td>${rowLength}</td>
                                 <td>${res.data.product_name}</td>
                                 <td class="text-right">${formatRupiah(
                                     res.data.price
                                 )}</td>
+                                <td class="text-right">${formatRupiah(
+                                    res.data.discount
+                                )} %</td>
                                 <td class="text-right">
                                     <input type="number" class="form-control amount_item" style="width:50%" name="amount[]" value="${amount}" autocomplete="off" />
                                 </td>
@@ -94,7 +103,7 @@ $(function () {
             .reduce((a, b) => {
                 const total = parseInt(
                     $(b)
-                        .find("td:eq(4)")
+                        .find("td:eq(5)")
                         .text()
                         .replace(".", "")
                         .replace(".", "")
@@ -142,9 +151,19 @@ $(function () {
             .replace(",", "")
             .replace(",", "")
             .replace(",", "");
-        const total_price = parseInt(amount) * parseInt(price);
 
-        $(this).closest("tr").find("td:eq(4)").text(formatRupiah(total_price));
+        const diskon = $(this)
+            .closest("tr")
+            .find("td:eq(3)")
+            .text()
+            .replace("%", "");
+
+        const total_price =
+            parseInt(amount) *
+            (parseInt(price) - parseInt(price) * (parseInt(diskon) / 100));
+
+        $(this).closest("tr").find("td:eq(5)").text(formatRupiah(total_price));
+        $(this).closest("tr").find(".total_detail").val(total_price);
 
         sumTotal();
         check_for_discount();

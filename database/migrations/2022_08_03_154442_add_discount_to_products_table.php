@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSettingsTable extends Migration
+class AddDiscountToProductsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('settings', function (Blueprint $table) {
-            $table->id();
-            $table->string('printer');
-            $table->string('min_discount');
-            $table->timestamps();
+        Schema::table('products', function (Blueprint $table) {
+            $table->float('discount')->default(0);
         });
     }
 
@@ -28,6 +25,8 @@ class CreateSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('settings');
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropColumn('discount');
+        });
     }
 }

@@ -59,7 +59,7 @@
     <div class="container">
         <table class="table tableb-bordered" border="0" cellpadding="5" cellspacing="0">
             <tr>
-                <td colspan="4" align="center">
+                <td colspan="5" align="center">
                     <span>
                         <strong>{{$outlet->name}} </strong> <br>
                         {{$outlet->address}} <br>
@@ -68,12 +68,16 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="4"><strong>Tanggal</strong> : {{ strftime( "%A, %d %B %Y %H:%M",
-                    strtotime($purchase->created_at)) }}</td>
+                <td colspan="5">
+                    <strong>Tanggal</strong> : {{ strftime( "%A, %d %B %Y %H:%M",
+                    strtotime($purchase->created_at)) }} <br>
+                    <strong>Kasir</strong> : {{ $purchase->user->name }} <br>
+                </td>
             </tr>
             <tr class="border header">
                 <th class="text-left">Barang</th>
                 <th class="text-right">Harga</th>
+                <th class="text-right">Disc</th>
                 <th class="text-right">Qty</th>
                 <th class="text-right">Total</th>
             </tr>
@@ -81,32 +85,33 @@
             <tr class="border-item">
                 <td>{{$detail->product->product_name}}</td>
                 <td class="text-right">{{ number_format($detail->price) }}</td>
+                <td class="text-right">{{ $detail->discount }}%</td>
                 <td class="text-right">{{ $detail->amount }}</td>
-                <td class="text-right">{{ number_format($detail->price * $detail->amount) }}</td>
+                <td class="text-right">{{ number_format($detail->total) }}</td>
             </tr>
             @endforeach
             <tr>
-                <th colspan="3" class="text-right">Subtotal</th>
+                <th colspan="4" class="text-right">Subtotal</th>
                 <th class="text-right">{{number_format($purchase->subtotal)}}</th>
             </tr>
             <tr>
-                <th colspan="3" class="text-right">Discount</th>
+                <th colspan="4" class="text-right">Discount</th>
                 <th class="text-right">{{ $purchase->discount }} %</th>
             </tr>
             <tr>
-                <th colspan="3" class="text-right">Potongan</th>
+                <th colspan="4" class="text-right">Potongan</th>
                 <th class="text-right">{{number_format($purchase->rebate)}}</th>
             </tr>
             <tr>
-                <th colspan="3" class="text-right">Grand Total</th>
+                <th colspan="4" class="text-right">Grand Total</th>
                 <th class="text-right">{{number_format($purchase->total)}}</th>
             </tr>
             <tr>
-                <th colspan="3" class="text-right">Cash</th>
+                <th colspan="4" class="text-right">Cash</th>
                 <th class="text-right">{{number_format($purchase->cash)}}</th>
             </tr>
             <tr>
-                <th colspan="3" class="text-right">Kembalian</th>
+                <th colspan="4" class="text-right">Kembalian</th>
                 <th class="text-right">{{number_format($purchase->cash - $purchase->total)}}</th>
             </tr>
         </table>

@@ -47,7 +47,7 @@
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address..." name="email">
+                                                placeholder="Enter Email Address..." name="email" autocomplete="off">
                                             @error('email')
                                             <small class="text-danger">
                                                 {{$message}}

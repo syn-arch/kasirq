@@ -45,6 +45,7 @@
                                                     <th>No</th>
                                                     <th>Nama Barang</th>
                                                     <th>Harga</th>
+                                                    <th>Diskon</th>
                                                     <th>Jumlah</th>
                                                     <th>Total Harga</th>
                                                     <th>Aksi</th>
@@ -56,15 +57,20 @@
                                                     <input type="hidden" name="id_product[]"
                                                         value="{{$row->id_product}}">
                                                     <input type="hidden" name="price[]" value="{{$row->price}}">
+                                                    <input type="hidden" name="discount_detail[]"
+                                                        value="{{$row->product->discount}}">
+                                                    <input type="hidden" class="total_detail" name="total_detail[]"
+                                                        value="{{$row->total}}">
                                                     <td>{{ $index+1 }}</td>
                                                     <td>{{$row->product->product_name}}</td>
                                                     <td class="text-right">{{number_format($row->price)}}</td>
+                                                    <td class="text-right">{{ $row->discount }} %</td>
                                                     <td class="text-right">
                                                         <input type="number" class="form-control amount_item"
                                                             style="width:50%" name="amount[]" value="{{$row->amount}}"
                                                             autocomplete="off" />
                                                     </td>
-                                                    <td class="text-right">{{number_format($row->price * $row->amount)}}
+                                                    <td class="text-right">{{number_format($row->total)}}
                                                     </td>
                                                     <td class="text-center">
                                                         <button class="btn btn-danger btn-sm remove-from-table">
@@ -113,7 +119,7 @@
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <select name="discount" id="discount" class="form-control discount" {{$purchase->subtotal <
-                                    50000 ? 'disabled' : '' }}>
+                                    $min_discount ? 'disabled' : '' }}>
                                     <option {{$purchase->discount == "0" ? 'selected' : ''}} value="0">-- Diskon --
                                     </option>
                                     <option {{$purchase->discount == "5" ? 'selected' : ''}} value="5">5 %</option>
@@ -130,7 +136,8 @@
                         </div>
                         <div class="col-md-6">
                             <input type="number" class="form-control rebate" name="rebate" placeholder="Potongan"
-                                value="{{$purchase->rebate}}" {{$purchase->subtotal < 50000 ? 'disabled' : '' }}>
+                                value="{{$purchase->rebate}}" {{$purchase->subtotal < $min_discount ? 'disabled' : ''
+                                }}>
                         </div>
                     </div>
                     <div class="row mb-4">

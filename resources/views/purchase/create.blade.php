@@ -45,6 +45,7 @@
                                                     <th>No</th>
                                                     <th>Nama Barang</th>
                                                     <th>Harga</th>
+                                                    <th>Diskon</th>
                                                     <th>Jumlah</th>
                                                     <th>Total Harga</th>
                                                     <th>Aksi</th>
@@ -133,3 +134,10 @@
     </div>
 </form>
 @endsection
+
+
+@push('js')
+<script>
+    const min_discount = {{ $min_discount }};
+</script>
+@endpush

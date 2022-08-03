@@ -27,8 +27,10 @@ class CreatePurchasesTable extends Migration
             $table->integer(
                 'id_product'
             );
-            $table->integer('amount');
             $table->integer('price');
+            $table->integer('discount');
+            $table->integer('amount');
+            $table->integer('total');
             $table->timestamps();
         });
     }
