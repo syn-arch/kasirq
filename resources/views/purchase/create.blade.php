@@ -16,8 +16,8 @@
                                     <div class="form-group">
                                         <label for="id_product">Nama Barang</label>
                                         <select name="id_product" id="id_product"
-                                            class="select2 form-control id_product">
-                                            <option value="">Pilih Barang</option>
+                                            class="select2 form-control id_product" autofocus>
+                                            <option value="">-- Pilih Barang --</option>
                                             @foreach ($products as $product)
                                             <option value="{{ $product->id }}">
                                                 {{ $product->product_name . ' | ' . number_format($product->price) }}
@@ -89,7 +89,7 @@
                 <div class="modal-body">
                     <div class="row mb-4">
                         <div class="col-md-6">
-                            <select name="discount" id="discount" class="form-control discount">
+                            <select name="discount" id="discount" class="form-control discount" disabled>
                                 <option value="0">-- Diskon --</option>
                                 <option value="5">5 %</option>
                                 <option value="10">10 %</option>
@@ -104,7 +104,8 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <input type="number" class="form-control rebate" name="rebate" placeholder="Potongan">
+                            <input type="number" class="form-control rebate" name="rebate" placeholder="Potongan"
+                                disabled>
                         </div>
                     </div>
                     <div class="row mb-4">

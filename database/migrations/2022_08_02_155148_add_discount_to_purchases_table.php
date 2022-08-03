@@ -14,7 +14,7 @@ class AddDiscountToPurchasesTable extends Migration
     public function up()
     {
         Schema::table('purchases', function (Blueprint $table) {
-            $table->integer('discount');
+            $table->integer('discount')->default(0);
         });
     }
 

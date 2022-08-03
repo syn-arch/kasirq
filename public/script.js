@@ -7,6 +7,18 @@ $(function () {
         theme: "bootstrap4",
     });
 
+    function check_for_discount() {
+        const subtotal = $(".total-input").val();
+
+        if (parseInt(subtotal) >= 50000) {
+            $(".discount").removeAttr("disabled");
+            $(".rebate").removeAttr("disabled");
+        } else {
+            $(".discount").attr("disabled", "disabled");
+            $(".rebate").attr("disabled", "disabled");
+        }
+    }
+
     function formatRupiah(number) {
         var number_string = number
                 .toString()
@@ -68,6 +80,8 @@ $(function () {
                 $(".amount").val("");
 
                 sumTotal();
+                check_for_discount();
+                $(".id_product").focus();
             } else {
                 alert("Produk sudah ditambahkan!");
             }
@@ -101,6 +115,7 @@ $(function () {
         e.preventDefault();
         $(this).closest("tr").remove();
         sumTotal();
+        check_for_discount();
     });
 
     $(".amount").on("keydown", function (e) {
@@ -132,6 +147,7 @@ $(function () {
         $(this).closest("tr").find("td:eq(4)").text(formatRupiah(total_price));
 
         sumTotal();
+        check_for_discount();
     });
 
     $(".discount").change(function () {

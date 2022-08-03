@@ -14,7 +14,7 @@ class AddRebateToPurchasesTable extends Migration
     public function up()
     {
         Schema::table('purchases', function (Blueprint $table) {
-            $table->integer('rebate')->nullable();
+            $table->integer('rebate')->default(0);
         });
     }
 

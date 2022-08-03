@@ -50,7 +50,7 @@
                                 <th>Tanggal</th>
                                 <th>Nama Barang</th>
                                 <th>Harga</th>
-                                <th>Jumlah</th>
+                                <th>Terjual</th>
                                 <th>Total</th>
                             </tr>
                         </thead>

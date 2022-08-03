@@ -69,8 +69,8 @@ class PurchaseController extends Controller
                 'total' => $request->total,
                 'subtotal' => $request->subtotal,
                 'id_user' => auth()->user()->id,
-                'discount' => $request->discount,
-                'rebate' => $request->rebate,
+                'discount' => $request->discount ?? 0,
+                'rebate' => $request->rebate ?? 0,
                 'cash' => str_replace('.', '', $request->cash),
             ]);
 
@@ -211,8 +211,8 @@ class PurchaseController extends Controller
                 'total' => $request->total,
                 'subtotal' => $request->subtotal,
                 'id_user' => auth()->user()->id,
-                'discount' => $request->discount,
-                'rebate' => $request->rebate,
+                'discount' => $request->discount ?? 0,
+                'rebate' => $request->rebate ?? 0,
                 'cash' => str_replace(',', '', str_replace('.', '', $request->cash)),
             ]);
 

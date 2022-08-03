@@ -112,23 +112,25 @@
                 <div class="modal-body">
                     <div class="row mb-4">
                         <div class="col-md-6">
-                            <select name="discount" id="discount" class="form-control discount">
-                                <option {{$purchase->discount == "0" ? 'selected' : ''}} value="0">-- Diskon --</option>
-                                <option {{$purchase->discount == "5" ? 'selected' : ''}} value="5">5 %</option>
-                                <option {{$purchase->discount == "10" ? 'selected' : ''}} value="10">10 %</option>
-                                <option {{$purchase->discount == "20" ? 'selected' : ''}} value="20">20 %</option>
-                                <option {{$purchase->discount == "30" ? 'selected' : ''}} value="30">30 %</option>
-                                <option {{$purchase->discount == "40" ? 'selected' : ''}} value="40">40 %</option>
-                                <option {{$purchase->discount == "50" ? 'selected' : ''}} value="50">50 %</option>
-                                <option {{$purchase->discount == "60" ? 'selected' : ''}} value="60">60 %</option>
-                                <option {{$purchase->discount == "70" ? 'selected' : ''}} value="70">70 %</option>
-                                <option {{$purchase->discount == "80" ? 'selected' : ''}} value="80">80 %</option>
-                                <option {{$purchase->discount == "90" ? 'selected' : ''}} value="90">90 %</option>
+                            <select name="discount" id="discount" class="form-control discount" {{$purchase->subtotal <
+                                    50000 ? 'disabled' : '' }}>
+                                    <option {{$purchase->discount == "0" ? 'selected' : ''}} value="0">-- Diskon --
+                                    </option>
+                                    <option {{$purchase->discount == "5" ? 'selected' : ''}} value="5">5 %</option>
+                                    <option {{$purchase->discount == "10" ? 'selected' : ''}} value="10">10 %</option>
+                                    <option {{$purchase->discount == "20" ? 'selected' : ''}} value="20">20 %</option>
+                                    <option {{$purchase->discount == "30" ? 'selected' : ''}} value="30">30 %</option>
+                                    <option {{$purchase->discount == "40" ? 'selected' : ''}} value="40">40 %</option>
+                                    <option {{$purchase->discount == "50" ? 'selected' : ''}} value="50">50 %</option>
+                                    <option {{$purchase->discount == "60" ? 'selected' : ''}} value="60">60 %</option>
+                                    <option {{$purchase->discount == "70" ? 'selected' : ''}} value="70">70 %</option>
+                                    <option {{$purchase->discount == "80" ? 'selected' : ''}} value="80">80 %</option>
+                                    <option {{$purchase->discount == "90" ? 'selected' : ''}} value="90">90 %</option>
                             </select>
                         </div>
                         <div class="col-md-6">
                             <input type="number" class="form-control rebate" name="rebate" placeholder="Potongan"
-                                value="{{$purchase->rebate}}">
+                                value="{{$purchase->rebate}}" {{$purchase->subtotal < 50000 ? 'disabled' : '' }}>
                         </div>
                     </div>
                     <div class="row mb-4">
