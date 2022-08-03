@@ -143,8 +143,8 @@
                     <div class="row mb-4">
                         <div class="col-md-12">
                             <strong>Grand Total</strong>
-                            <input type="hidden" name="total" class="grand-total-input" value="{{$purchase->subtotal}}">
-                            <span class="float-right mr-1 grand-total">{{number_format($purchase->subtotal)}}</span>
+                            <input type="hidden" name="total" class="grand-total-input" value="{{$purchase->total}}">
+                            <span class="float-right mr-1 grand-total">{{number_format($purchase->total)}}</span>
                         </div>
                     </div>
                     <div class="row mb-4">

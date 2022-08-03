@@ -134,6 +134,13 @@ $(function () {
         }
     });
 
+    $(document).on("keydown", ".amount_item", function (e) {
+        if (e.keyCode === 13) {
+            e.preventDefault();
+            $(".id_product").focus();
+        }
+    });
+
     $(".add-to-table").click(function (e) {
         e.preventDefault();
         addToTable();

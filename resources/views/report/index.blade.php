@@ -50,6 +50,7 @@
                                 <th>Tanggal</th>
                                 <th>Nama Barang</th>
                                 <th>Harga</th>
+                                <th>Diskon</th>
                                 <th>Terjual</th>
                                 <th>Total</th>
                             </tr>
@@ -61,8 +62,9 @@
                                 <td>{{ date('d-m-Y', strtotime($report->date)) }}</td>
                                 <td>{{ $report->product_name }}</td>
                                 <td class="text-right">{{ number_format($report->price) }}</td>
+                                <td class="text-right">{{ $report->discount }} %</td>
                                 <td>{{ $report->amount }}</td>
-                                <td class="text-right subtotal">{{ number_format($report->amount * $report->price) }}
+                                <td class="text-right subtotal">{{ number_format($report->total) }}
                                 </td>
                             </tr>
                             @endforeach
@@ -73,8 +75,9 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                                 <td>Total</td>
-                                <td class="text-right total"></td>
+                                <td class="text-right total">{{ number_format($total) }}</td>
                             </tr>
                         </tfoot>
                     </table>
@@ -94,33 +97,6 @@
             'copy', 'csv', 'excel', 'pdf', 'print'
             ]
         });
-
-        function formatRupiah(number){
-            var number_string = number.toString().replace(/[^,\d]/g, '').toString(),
-            split = number_string.split(','),
-            sisa = split[0].length % 3,
-            rupiah = split[0].substr(0, sisa),
-            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-            if(ribuan){
-                separator = sisa ? '.' : '';
-                rupiah += separator + ribuan.join('.');
-            }
-
-            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-            return rupiah;
-        }
-
-        function get_total(){
-            const Total = $('.table tbody tr').toArray().reduce((a, b) => {
-                const total = parseInt($(b).find('td:eq(5)').text().replace(',', '').replace(',', '').replace(',', ''));
-                return a + total;
-            }, 0);
-
-            $('.total').text(formatRupiah(Total));
-        }
-
-        get_total();
     });
 </script>
 @endpush

@@ -113,6 +113,12 @@
                 Laporan
             </div>
             <li class="nav-item">
+                <a class="nav-link" href="/reports/harian">
+                    <i class="fas fa-fw fa-chart-pie"></i>
+                    <span>Laporan Harian</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="/reports">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Laporan Pembelian</span>

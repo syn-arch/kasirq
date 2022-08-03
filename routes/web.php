@@ -33,3 +33,4 @@ Route::get('/purchases/get_product/{product}', [PurchaseController::class, 'get_
 Route::resource('purchases', PurchaseController::class);
 Route::get('/purchases/print/{purchase}', [PurchaseController::class, 'print']);
 Route::get('/purchases/cetak/{purchase}', [PurchaseController::class, 'cetak']);
+Route::get('/reports/harian', [ReportController::class, 'harian']);

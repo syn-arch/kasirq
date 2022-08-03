@@ -118,7 +118,7 @@
                     </div>
                     <div class="row mb-4">
                         <div class="col-md-12">
-                            <input type="text" name="cash" class="form-control cash" placeholder="Cash">
+                            <input type="text" name="cash" class="form-control cash" placeholder="Cash" required>
                             <input type="text" name="kembalian" class="form-control mt-2 kembalian"
                                 placeholder="Kembalian" readonly>
                         </div>

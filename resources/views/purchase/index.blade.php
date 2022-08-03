@@ -72,14 +72,14 @@
                                 <td class="text-center">
                                     <a href="{{ route('purchases.show', $purchase->id) }}" class="btn btn-success"><i
                                             class="fa fa-eye"></i> Detail</a>
+                                    <a href="/purchases/cetak/{{$purchase->id}}" class="btn btn-primary"><i
+                                            class="fa fa-print"></i> Cetak</a>
+                                    @if (auth()->user()->role == 'admin_kasir')
                                     <a href="{{ route('purchases.edit', $purchase->id) }}" class="btn btn-dark"><i
                                             class="fa fa-edit"></i> Edit</a>
-                                    <a href="/purchases/cetak/{{$purchase->id}}" class="btn btn-primary"><i
-                                            class="fa fa-print"></i> Print</a>
-                                    <a href="/purchases/print/{{$purchase->id}}" class="btn btn-warning"><i
-                                            class="fa fa-print"></i> Cetak</a>
                                     <a href="#deleteModal" data-id={{$purchase->id}} data-toggle="modal" class="btn
                                         btn-danger delete-button"><i class="fa fa-trash"></i> Hapus</a>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
