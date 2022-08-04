@@ -19,9 +19,12 @@ class ReportController extends Controller
         $end = $request->get('end');
         $id_user = $request->get('id_user');
 
-        if ($id_user) {
-            $reports = DB::table('purchase_detail')
-                ->selectRaw('
+
+        if ($start && $end) {
+
+            if ($id_user) {
+                $reports = DB::table('purchase_detail')
+                    ->selectRaw('
                 DATE(purchase_detail.created_at) as date,
                 product_name,
                 purchase_detail.amount,
@@ -29,18 +32,37 @@ class ReportController extends Controller
                 purchase_detail.discount,
                 purchase_detail.total
                 ')
-                ->where('purchases.id_user', $id_user)
-                ->join('purchases', 'purchase_detail.id_purchase', '=', 'purchases.id')
-                ->join('products', 'purchase_detail.id_product', '=', 'products.id')
-                ->orderBy('purchase_detail.created_at', 'ASC')
-                ->get();
-            $total = DB::table('purchase_detail')
-                ->where('purchases.id_user', $id_user)
-                ->join('purchases', 'purchase_detail.id_purchase', '=', 'purchases.id')
-                ->selectRaw('SUM(purchase_detail.total) as total')->first()->total;
-        } else {
-            $reports = DB::table('purchase_detail')
-                ->selectRaw('
+                    ->where('purchases.id_user', $id_user)
+                    ->whereRaw('DATE(purchase_detail.created_at) >= "' . $start . '"')
+                    ->whereRaw('DATE(purchase_detail.created_at) <= "' . $end . '"')
+                    ->join('purchases', 'purchase_detail.id_purchase', '=', 'purchases.id')
+                    ->join('products', 'purchase_detail.id_product', '=', 'products.id')
+                    ->orderBy('purchase_detail.created_at', 'ASC')
+                    ->get();
+                $total = DB::table('purchase_detail')
+                    ->where('purchases.id_user', $id_user)
+                    ->whereRaw('DATE(purchase_detail.created_at) >= "' . $start . '"')
+                    ->whereRaw('DATE(purchase_detail.created_at) <= "' . $end . '"')
+                    ->join('purchases', 'purchase_detail.id_purchase', '=', 'purchases.id')
+                    ->selectRaw('SUM(purchase_detail.total) as total')->first()->total;
+                $diskon = DB::table('purchases')
+                    ->where('purchases.id_user', $id_user)
+                    ->whereRaw('DATE(purchases.created_at) >= "' . $start . '"')
+                    ->whereRaw('DATE(purchases.created_at) <= "' . $end . '"')
+                    ->selectRaw('SUM(discount) as discount')->first()->discount;
+                $potongan = DB::table('purchases')
+                    ->where('purchases.id_user', $id_user)
+                    ->whereRaw('DATE(purchases.created_at) >= "' . $start . '"')
+                    ->whereRaw('DATE(purchases.created_at) <= "' . $end . '"')
+                    ->selectRaw('SUM(rebate) as rebate')->first()->rebate;
+                $akhir = DB::table('purchases')
+                    ->where('purchases.id_user', $id_user)
+                    ->whereRaw('DATE(purchases.created_at) >= "' . $start . '"')
+                    ->whereRaw('DATE(purchases.created_at) <= "' . $end . '"')
+                    ->selectRaw('SUM(total) as total')->first()->total;
+            } else {
+                $reports = DB::table('purchase_detail')
+                    ->selectRaw('
                 DATE(purchase_detail.created_at) as date,
                 product_name,
                 purchase_detail.amount,
@@ -48,15 +70,38 @@ class ReportController extends Controller
                 purchase_detail.discount,
                 purchase_detail.total
                 ')
-                ->join('products', 'purchase_detail.id_product', '=', 'products.id')
-                ->orderBy('purchase_detail.created_at', 'ASC')
-                ->get();
-            $total = DB::table('purchase_detail')
-                ->selectRaw('SUM(total) as total')->first()->total;
+                    ->whereRaw('DATE(purchase_detail.created_at) >= "' . $start . '"')
+                    ->whereRaw('DATE(purchase_detail.created_at) <= "' . $end . '"')
+                    ->join('products', 'purchase_detail.id_product', '=', 'products.id')
+                    ->orderBy('purchase_detail.created_at', 'ASC')
+                    ->get();
+
+                $total = DB::table('purchase_detail')
+                    ->whereRaw('DATE(purchase_detail.created_at) >= "' . $start . '"')
+                    ->whereRaw('DATE(purchase_detail.created_at) <= "' . $end . '"')
+                    ->join('purchases', 'purchase_detail.id_purchase', '=', 'purchases.id')
+                    ->selectRaw('SUM(purchase_detail.total) as total')->first()->total;
+                $diskon = DB::table('purchases')
+                    ->whereRaw('DATE(purchases.created_at) >= "' . $start . '"')
+                    ->whereRaw('DATE(purchases.created_at) <= "' . $end . '"')
+                    ->selectRaw('SUM(discount) as discount')->first()->discount;
+                $potongan = DB::table('purchases')
+                    ->whereRaw('DATE(purchases.created_at) >= "' . $start . '"')
+                    ->whereRaw('DATE(purchases.created_at) <= "' . $end . '"')
+                    ->selectRaw('SUM(rebate) as rebate')->first()->rebate;
+                $akhir = DB::table('purchases')
+                    ->whereRaw('DATE(purchases.created_at) >= "' . $start . '"')
+                    ->whereRaw('DATE(purchases.created_at) <= "' . $end . '"')
+                    ->selectRaw('SUM(total) as total')->first()->total;
+            }
         }
 
         $users = User::all();
-        return view('report.index', compact('reports', 'users', 'total'));
+        if ($start && $end) {
+            return view('report.index', compact('reports', 'users', 'total', 'diskon', 'potongan', 'akhir'));
+        } else {
+            return view('report.index', compact('users'));
+        }
     }
 
     public function harian()
@@ -85,10 +130,10 @@ class ReportController extends Controller
             $printer->text("Tgl    : " . strftime("%A, %d %B %Y %H:%M", strtotime(date('Y-m-d H:i:s'))) . "\n");
             $printer->text("Kasir  : " . auth()->user()->name . "\n");
             $printer->text("---------------------------------------\n");
-            $printer->text("Pendapatan  : " . number_format($report->pendapatan) . "\n");
-            $printer->text("Diskon      : " . number_format($report->diskon) . "%\n");
-            $printer->text("Potongan    : " . number_format($report->potongan) . "\n");
-            $printer->text("Total Akhir : " . number_format($report->total_akhir) . "\n");
+            $printer->text("Pendapatan     : " . number_format($report->pendapatan) . "\n");
+            $printer->text("Total Diskon   : " . number_format($report->diskon) . "%\n");
+            $printer->text("Total Potongan : " . number_format($report->potongan) . "\n");
+            $printer->text("Total Akhir    : " . number_format($report->total_akhir) . "\n");
             $printer->text("---------------------------------------\n");
             $printer->text("***TERIMA KASIH***\n");
             $printer->feed(2);

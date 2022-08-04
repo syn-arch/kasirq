@@ -76,8 +76,35 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td>Total</td>
+                                <td>Pendapatan</td>
                                 <td class="text-right total">{{ number_format($total) }}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Total Diskon</td>
+                                <td class="text-right total">{{ ($diskon) }} %</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Total Potongan</td>
+                                <td class="text-right total">{{ number_format($potongan) }}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Total Akhir</td>
+                                <td class="text-right total">{{ number_format($akhir) }}</td>
                             </tr>
                         </tfoot>
                     </table>
